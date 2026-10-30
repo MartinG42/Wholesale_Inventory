@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wholesale Demand and Inventory Decision-Support System</title>
+
+  <!-- Fonts used in style.css -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header>
+    <img class="logo" src="images/logo.svg" alt="System logo">
+    <div>
+      <h1>Wholesale Demand and Inventory Decision-Support System</h1>
+      <p>Sales, stock and reorder guidance for wholesalers</p>
+    </div>
+  </header>
+
+  <!-- data-roles says which user roles can see each link and section -->
+  <nav>
+    <ul>
+      <li data-roles="manager sales stock"><a href="#dashboard">Dashboard</a></li>
+      <li data-roles="manager stock"><a href="#stock">Products &amp; Stock</a></li>
+      <li data-roles="manager sales"><a href="#sales">Record Sale</a></li>
+      <li data-roles="manager"><a href="#demand">Demand Analysis</a></li>
+      <li data-roles="manager"><a href="#reorder">Reorder Suggestions</a></li>
+      <li data-roles="manager"><a href="#reports">Reports</a></li>
+      <li><a href="login.html" id="logout">Log out</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- 1. DASHBOARD -->
+    <section id="dashboard" data-roles="manager sales stock">
+      <h2>Dashboard</h2>
+      <p id="dashboard-summary"></p>
+
+      <div class="cards">
+        <div class="card"><span class="number" id="card-products">0</span>Products</div>
+        <div class="card"><span class="number" id="card-alerts">0</span>Low-stock alerts</div>
+        <div class="card"><span class="number" id="card-suggestions">0</span>Pending reorder suggestions</div>
+      </div>
+
+      <h3>Recent sales</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Sale ID</th><th>Date</th><th>Product</th><th>Qty</th><th>Total (KSh)</th><th>Recorded by</th></tr>
+          </thead>
+          <tbody id="recent-sales"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 2. PRODUCTS AND STOCK -->
+    <section id="stock" data-roles="manager stock">
+      <h2>Products &amp; Stock</h2>
+
+      <h3>Add a product</h3>
+      <form id="product-form" class="form-grid">
+        <div>
+          <label for="product-name">Product name</label>
+          <input type="text" id="product-name" maxlength="60" required>
+        </div>
+        <div>
+          <label for="product-price">Unit price (KSh)</label>
+          <input type="number" id="product-price" min="0" step="0.01" required>
+        </div>
+        <div>
+          <label for="product-opening">Opening stock</label>
+          <input type="number" id="product-opening" min="0" step="1" required>
+        </div>
+        <div>
+          <label for="product-reorder">Reorder level</label>
+          <input type="number" id="product-reorder" min="0" step="1" required>
+        </div>
+        <div><button type="submit">Add product</button></div>
+      </form>
+      <p class="message" id="product-message"></p>
+
+      <h3>Record stock received</h3>
+      <form id="stock-form" class="form-grid">
+        <div>
+          <label for="stock-product">Product</label>
+          <select id="stock-product" required></select>
+        </div>
+        <div>
+          <label for="stock-qty">Quantity received</label>
+          <input type="number" id="stock-qty" min="1" step="1" required>
+        </div>
+        <div><button type="submit">Record stock</button></div>
+      </form>
+      <p class="message" id="stock-message"></p>
+
+      <h3>Stock levels</h3>
+      <p>
+        <label for="search">Search product</label>
+        <input type="search" id="search" placeholder="Type a product name">
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Product</th><th>Unit price (KSh)</th><th>Available qty</th><th>Reorder level</th><th>Status</th></tr>
+          </thead>
+          <tbody id="stock-rows"></tbody>
+        </table>
+      </div>
+
+      <h3>Stock history</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Date</th><th>Product</th><th>Change</th><th>New qty</th><th>Reason</th><th>By</th></tr>
+          </thead>
+          <tbody id="stock-history"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 3. RECORD SALE -->
+    <section id="sales" data-roles="manager sales">
+      <h2>Record Sale</h2>
+      <p>Saving a sale stores it, takes the quantity out of stock and checks the product's reorder level.</p>
+      <form id="sale-form" class="form-grid">
+        <div>
+          <label for="sale-product">Product</label>
+          <select id="sale-product" required></select>
+        </div>
+        <div>
+          <label for="sale-qty">Quantity</label>
+          <input type="number" id="sale-qty" min="1" step="1" required>
+        </div>
+        <div>
+          <label for="sale-date">Sale date</label>
+          <input type="date" id="sale-date" required>
+        </div>
+        <div><button type="submit">Save sale</button></div>
+      </form>
+      <p class="message" id="sale-message"></p>
+    </section>
+
+    <!-- 4. DEMAND ANALYSIS -->
+    <section id="demand" data-roles="manager">
+      <h2>Demand Analysis</h2>
+      <p>
+        Units sold in each 30-day period, worked out from the sales you record.
+        The forecast is the moving average of the three periods.
+        The trend compares the last 30 days with the two periods before it: more than 10% higher is rising, more than 10% lower is falling.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Product</th><th>61–90 days ago</th><th>31–60 days ago</th><th>Last 30 days</th><th>Forecast (next 30 days)</th><th>Trend</th></tr>
+          </thead>
+          <tbody id="demand-rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 5. REORDER SUGGESTIONS -->
+    <section id="reorder" data-roles="manager">
+      <h2>Reorder Suggestions</h2>
+      <p>
+        A suggestion is created when a product's stock falls to its reorder level.
+        Suggested quantity = forecast for the next 30 days + reorder level − available quantity.
+        Change the quantity if needed, then accept or reject it. The final purchasing decision is yours.
+      </p>
+      <p class="message" id="reorder-message"></p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>ID</th><th>Product</th><th>Suggested qty</th><th>Created</th><th>Status</th><th>Action</th></tr>
+          </thead>
+          <tbody id="suggestion-rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 6. REPORTS -->
+    <section id="reports" data-roles="manager">
+      <h2>Reports</h2>
+      <form id="report-form" class="form-grid">
+        <div>
+          <label for="report-type">Report type</label>
+          <select id="report-type">
+            <option value="sales">Sales summary</option>
+            <option value="stock">Stock levels</option>
+            <option value="low">Low-stock items</option>
+            <option value="reorder">Reorder suggestions</option>
+          </select>
+        </div>
+        <div>
+          <label for="report-from">From (optional)</label>
+          <input type="date" id="report-from">
+        </div>
+        <div>
+          <label for="report-to">To (optional)</label>
+          <input type="date" id="report-to">
+        </div>
+        <div><button type="submit">Generate report</button></div>
+      </form>
+      <p class="message" id="report-message"></p>
+      <div id="report-output"></div>
+
+      <h3>Saved data</h3>
+      <p>All records are saved in this browser on this computer.</p>
+      <button type="button" class="danger" id="clear-data">Delete all data</button>
+    </section>
+
+  </main>
+
+  <aside>
+    <h2>Signed In</h2>
+    <p><strong id="user-name"></strong><br><span id="user-role"></span></p>
+
+    <h2>Stock-Risk Alerts</h2>
+    <ul id="alert-list"></ul>
+
+    <h2>Demand Watch</h2>
+    <ul id="demand-watch"></ul>
+  </aside>
+
+  <footer>
+    <p>Wholesale Demand and Inventory Decision-Support System &middot; Strathmore University, School of Computing and Engineering Sciences &middot; 229977 &amp; 227180</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

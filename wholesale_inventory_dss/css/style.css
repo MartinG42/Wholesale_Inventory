@@ -1,0 +1,293 @@
+/*all elements
+the * - selects all elements
+*/
+
+*{
+box-sizing: border-box;
+}
+
+body{
+margin:0;
+background: #eef1f8;
+color: #1f2440;
+line-height: 1.5;
+/*font faces
+1. Source Sans 3
+2. Source Serif 4
+*/
+font-family: 'Source Sans 3', sans-serif;
+}
+h1, h2{
+font-family: 'Source Serif 4', serif;
+/*bold, bolder...*/
+font-weight: 600;
+}
+header{
+background: #2e3b7c;
+color: #ffffff;
+}
+nav{
+background: #1f2a5c;
+}
+nav a{
+color: #ffffff;
+}
+a{
+color: #2e3b7c;
+}
+header, main, aside, footer{
+padding: 1rem;/*a relative unit*/
+}
+img{
+max-width: 100%;
+height: auto;
+}
+/*Flexbox - organising element along an axis - menu's*/
+nav ul{
+display: flex;
+flex-wrap: wrap;
+gap: 0.5rem 0.75rem;
+list-style: none;
+margin: 0;
+/*what is the value for
+padding-top, padding-bottom,
+padding-right, padding-left*/
+padding: 0.75rem 1rem;
+}
+nav{
+position: sticky;
+top:0;
+z-index: 10;
+}
+/*grid layout*/
+body{
+display: grid;
+grid-template-columns: minmax(0,1fr) 18rem;
+column-gap: 1rem;
+grid-template-areas:
+"header header"
+"nav nav"
+"main aside"
+"footer footer";
+}
+header{ grid-area: header;}
+nav{grid-area: nav;}
+main{ grid-area: main;}
+aside{ grid-area: aside;}
+footer{ grid-area: footer;}
+
+/*header - logo next to the title*/
+header{
+display: flex;
+align-items: center;
+gap: 0.75rem;
+}
+header h1{
+margin: 0;
+font-size: 1.5rem;
+line-height: 1.2;
+}
+header p{
+margin: 0.25rem 0 0;
+opacity: 0.85;
+}
+.logo{
+width: 3rem;
+flex-shrink: 0;
+}
+
+/*menu links look like the light tabs in the layout*/
+nav a{
+display: block;
+padding: 0.25rem 0.75rem;
+background: rgba(255, 255, 255, 0.15);
+border-radius: 0.25rem;
+text-decoration: none;
+font-weight: 600;
+}
+nav a:hover, nav a:focus{
+background: #d9a441;
+color: #1f2a5c;
+}
+
+/*main and aside are white panels*/
+main, aside{
+background: #ffffff;
+border: 1px solid #d5dae8;
+border-radius: 0.5rem;
+}
+main{
+margin: 1rem 0 1rem 1rem;
+}
+aside{
+margin: 1rem 1rem 1rem 0;
+align-self: start;
+}
+footer{
+background: #2e3b7c;
+color: #ffffff;
+}
+footer p{
+margin: 0;
+}
+
+/*sections inside main*/
+main section{
+margin-bottom: 2.5rem;
+scroll-margin-top: 4rem; /*stops the sticky menu covering the heading*/
+}
+main h2{
+margin-top: 0;
+border-bottom: 3px solid #d9a441;
+padding-bottom: 0.25rem;
+}
+aside h2{
+font-size: 1.2rem;
+margin-top: 0;
+}
+aside ul{
+padding-left: 1.25rem;
+}
+[hidden]{
+display: none !important;
+}
+
+/*cards - the three boxes with the gold top*/
+.cards{
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+gap: 1rem;
+margin: 1rem 0;
+}
+.card{
+border: 1px solid #d5dae8;
+border-top: 5px solid #d9a441;
+border-radius: 0.375rem;
+padding: 1rem;
+}
+.card .number{
+display: block;
+font-size: 2rem;
+font-weight: 700;
+color: #2e3b7c;
+line-height: 1.2;
+}
+
+/*forms*/
+.form-grid{
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+gap: 0.75rem 1rem;
+align-items: end;
+background: #f7f8fc;
+border: 1px solid #d5dae8;
+border-radius: 0.375rem;
+padding: 1rem;
+}
+label{
+display: block;
+font-weight: 600;
+margin-bottom: 0.25rem;
+}
+input, select{
+width: 100%;
+padding: 0.45rem;
+font: inherit;
+border: 1px solid #b8bfd6;
+border-radius: 0.25rem;
+background: #ffffff;
+}
+button{
+font: inherit;
+font-weight: 600;
+background: #2e3b7c;
+color: #ffffff;
+border: 0;
+border-radius: 0.25rem;
+padding: 0.5rem 0.9rem;
+cursor: pointer;
+}
+button:hover, button:focus{
+background: #1f2a5c;
+}
+button.secondary{
+background: #ffffff;
+color: #2e3b7c;
+border: 1px solid #2e3b7c;
+}
+button.danger{
+background: #b42318;
+}
+.qty-input{
+width: 5rem;
+margin-right: 0.25rem;
+}
+
+/*messages after saving*/
+.message{
+margin: 0.75rem 0;
+padding: 0.5rem 0.75rem;
+border-left: 4px solid #d9a441;
+background: #fdf6e7;
+}
+.message.error{
+border-left-color: #b42318;
+background: #fdecea;
+color: #b42318;
+}
+.message:empty{
+display: none;
+}
+
+/*tables*/
+.table-wrap{
+overflow-x: auto; /*wide tables scroll sideways on phones*/
+}
+table{
+width: 100%;
+border-collapse: collapse;
+}
+th, td{
+border: 1px solid #d5dae8;
+padding: 0.5rem;
+text-align: left;
+vertical-align: top;
+}
+th{
+background: #eef1f8;
+color: #1f2a5c;
+}
+td.empty{
+text-align: center;
+color: #5b6180;
+}
+.low{ color: #b42318; font-weight: 700;}
+.ok{ color: #1d7a46; font-weight: 600;}
+
+/*RWD - Reponsive Web Design... Making the website responsive */
+@media(max-width:700px) {
+body {
+grid-template-columns: minmax(0, 1fr);
+grid-template-areas:
+"header"
+"nav"
+"main"
+"aside"
+"footer";
+}
+nav {
+position: static;
+}
+nav ul {
+flex-direction: column;
+}
+main {
+margin: 1rem 1rem 0;
+}
+aside {
+margin: 1rem;
+}
+.logo {
+width: 2.5rem;
+}
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In | Wholesale Demand and Inventory Decision-Support System</title>
+
+  <!-- Fonts used in style.css -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header>
+    <img class="logo" src="images/logo.svg" alt="System logo">
+    <div>
+      <h1>Wholesale Demand and Inventory Decision-Support System</h1>
+      <p>Sales, stock and reorder guidance for wholesalers</p>
+    </div>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="login.html">Log In</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section>
+      <h2>Log In</h2>
+      <p>Enter your name and choose your role. You will only see the functions allowed for your role.</p>
+
+      <!-- sends the name and role to the main page -->
+      <form action="index.html" method="get" class="form-grid">
+        <div>
+          <label for="name">Your name</label>
+          <input type="text" id="name" name="name" maxlength="40" required>
+        </div>
+        <div>
+          <label for="role">Role</label>
+          <select id="role" name="role" required>
+            <option value="manager">Wholesaler / Manager</option>
+            <option value="sales">Sales staff</option>
+            <option value="stock">Stock staff</option>
+          </select>
+        </div>
+        <div><button type="submit">Log in</button></div>
+      </form>
+      <p>This is a prototype, so there is no password check yet. The final system will check passwords on the server.</p>
+    </section>
+  </main>
+
+  <aside>
+    <h2>About the System</h2>
+    <p>
+      The system brings sales and current stock information together.
+      It shows demand trends, flags products at risk of running out and gives reorder suggestions for the manager to review.
+    </p>
+
+    <h2>User Roles</h2>
+    <ul>
+      <li><strong>Wholesaler / Manager</strong>: dashboard, demand analysis, alerts, reorder suggestions and reports.</li>
+      <li><strong>Sales staff</strong>: record sales.</li>
+      <li><strong>Stock staff</strong>: add products and record stock received.</li>
+    </ul>
+  </aside>
+
+  <footer>
+    <p>Wholesale Demand and Inventory Decision-Support System &middot; Strathmore University, School of Computing and Engineering Sciences &middot; 229977 &amp; 227180</p>
+  </footer>
+
+</body>
+</html>
